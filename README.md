@@ -7,6 +7,7 @@ operaciones:
 - Borrar una tarea
 - Editar una tarea
 - Marcar una tarea como hecha
+
 Además, la aplicación deberá tener acceso a una pantalla diferente donde podemos ver
 el histórico de los cambios de la tarea (cambios de estado y ediciones) y detalles de la
 tarea.
