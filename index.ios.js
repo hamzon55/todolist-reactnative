@@ -97,8 +97,6 @@ class Input extends Component {
     this.setState({text: ''})
   }
 
-
-
   render()   {
     const {onSubmit, placeholder} = this.props
     const {text} = this.state
@@ -125,10 +123,6 @@ class MovieDetails extends Component {
     )
   }
 }
-
-
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -159,7 +153,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'yellow',
 
   },
-
 
 
 
