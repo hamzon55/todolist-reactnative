@@ -31,8 +31,21 @@ export default class TodoList extends Component {
 
   }
 
-//metodo addItem del componente principal //
 
+  toggleItemCompleted = (id) => {
+
+    const newMovies = this.state.movies.map((movie) => {
+    	if(movie.id == id) {
+      movie.completed = !movie.completed
+    	}
+      return movie
+    })
+    this.setState({movies: newMovies});
+   }
+
+
+
+//metodo addItem del componente principal //
   addItem = (item) => {
     const movie = { id: this.state.movies.length+1 ,title: item};
     const newMovies = this.state.movies.concat([movie]);
@@ -45,9 +58,9 @@ export default class TodoList extends Component {
   }
   state = {
     movies: [
-      { id: 1, title: "Task 1"},
-      { id: 2, title: "Task 2"},
-      { id: 3, title: "Task 3 "},
+      { id: 1, title: "Task 1", completed :false},
+      { id: 2, title: "Task 2", completed :false},
+      { id: 3, title: "Task 3 ", completed :false},
     ]
   }
   clearList() {
@@ -69,6 +82,7 @@ export default class TodoList extends Component {
           key={movie.id}
           movie={movie}
           onRemoveItem={this.removeItem}
+          onToggleItemCompleted={this.toggleItemCompleted}
           />
         )
       })}
@@ -122,9 +136,36 @@ class Input extends Component {
   }
 }
 
+
+class Checkbox extends Component {
+
+  static propTypes = {
+    onToggle: PropTypes.func,
+    isChecked: PropTypes.bool,
+  }
+
+  render() {
+    const {onToggle, isChecked} = this.props
+
+    return (
+      <TouchableOpacity onPress={onToggle}>
+        <View style={styles.box}>
+          { isChecked && <View style={styles.inner}/> }
+        </View>
+      </TouchableOpacity>
+    )
+  }
+}
+
+
+
+
+
+
 class MovieDetails extends Component {
   static propTypes = {
-    onRemoveItem: PropTypes.func.isRequired
+    onRemoveItem: PropTypes.func.isRequired,
+    onToggleItemCompleted: PropTypes.func.isRequired,
   }
 
 
@@ -133,12 +174,20 @@ class MovieDetails extends Component {
     movie = this.props.movie
     return (
       <View style={styles.item}>
-      <Text>{movie.title}</Text>
-
-      <TouchableOpacity onPress={() => onRemoveItem(movie.id)}>
-        <Text style={styles.remove}> &times; </Text>
-      </TouchableOpacity>
+        <Text>{movie.title}</Text>
+      <View style={styles.rightSection}>
+          <Checkbox
+            isChecked={movie.completed}
+            onToggle={() => onToggleItemCompleted(movie.id)}
+          />
+          <TouchableOpacity onPress={() => onRemoveItem(movie.id)}>
+            <Text style={styles.remove}> &times; </Text>
+          </TouchableOpacity>
+       </View>
       </View>
+
+
+
     )
   }
 }
@@ -151,6 +200,24 @@ const styles = StyleSheet.create({
   header :{
     padding :30,
     textAlign: 'center',
+  },
+
+  rightSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+
+
+  box: {
+    height: 20,
+    width: 20,
+    borderWidth: 2,
+    borderColor: 'black',
+  },
+  inner: {
+    flex: 1,
+    margin: 2,
+    backgroundColor: 'rgba(0,0,0,0.8)',
   },
 
   title: {
