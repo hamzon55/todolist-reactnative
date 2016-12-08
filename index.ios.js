@@ -12,11 +12,26 @@ import {
   ScrollView,
   Button,
   TextInput,
+  TouchableOpacity,
   View
 } from 'react-native';
 
-export default class TodoList extends Component {
 
+
+
+export default class TodoList extends Component {
+// metodo removeItem del componente principal //
+
+    removeItem = (id) => {
+
+    const newMovies = this.state.movies.filter(
+     (movie) => movie.id !== id
+   )
+   this.setState({ movies: newMovies })
+
+  }
+
+//metodo addItem del componente principal //
 
   addItem = (item) => {
     const movie = { id: this.state.movies.length+1 ,title: item};
@@ -30,9 +45,9 @@ export default class TodoList extends Component {
   }
   state = {
     movies: [
-      { id: 1, title: "La Reina del Sur"},
-      { id: 2, title: "Ready Player One"},
-      { id: 3, title: "Samurai Jack"},
+      { id: 1, title: "Task 1"},
+      { id: 2, title: "Task 2"},
+      { id: 3, title: "Task 3 "},
     ]
   }
   clearList() {
@@ -42,20 +57,18 @@ export default class TodoList extends Component {
 
     return (
       <ScrollView style={styles.movieList}>
-
-
-
       <Text style={styles.header}>TODOAPP</Text>
       < Input
       placeholder={'Enter an item!'}
       onSubmit={this.addItem}
       />
-
       {this.state.movies.map((movie) => {
+
         return (
           <MovieDetails
           key={movie.id}
           movie={movie}
+          onRemoveItem={this.removeItem}
           />
         )
       })}
@@ -75,13 +88,9 @@ class Input extends Component {
     onSubmit: PropTypes.func,
     placeholder: PropTypes.string,
   }
-
   state = {
     text: '',
   }
-
-
-
 
   onChangeText = (text) => {
     this.setState({text})
@@ -112,13 +121,23 @@ class Input extends Component {
     )
   }
 }
+
 class MovieDetails extends Component {
+  static propTypes = {
+    onRemoveItem: PropTypes.func.isRequired
+  }
+
+
   render() {
+    const {onToggleItemCompleted, onRemoveItem} = this.props
     movie = this.props.movie
     return (
       <View style={styles.item}>
       <Text>{movie.title}</Text>
 
+      <TouchableOpacity onPress={() => onRemoveItem(movie.id)}>
+        <Text style={styles.remove}> &times; </Text>
+      </TouchableOpacity>
       </View>
     )
   }
@@ -152,6 +171,13 @@ const styles = StyleSheet.create({
     padding: 15,
     backgroundColor: 'yellow',
 
+  },
+
+  remove: {
+    marginLeft: 10,
+    marginBottom: 2,
+    color: '#CD5C5C',
+    fontSize: 26,
   },
 
 
