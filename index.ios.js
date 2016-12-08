@@ -8,7 +8,6 @@ import React, { Component,PropTypes } from 'react';
 import {
   AppRegistry,
   StyleSheet,
-  
   Text,
   ScrollView,
   Button,
@@ -17,73 +16,60 @@ import {
   View
 } from 'react-native';
 
-
-
-
 export default class TodoList extends Component {
 // metodo removeItem del componente principal //
-
     removeItem = (id) => {
-
-    const newMovies = this.state.movies.filter(
-     (movie) => movie.id !== id
+    const newTasks = this.state.tasks.filter(
+     (task) => task.id !== id
    )
-   this.setState({ movies: newMovies })
-
+   this.setState({ tasks: newTasks })
   }
-
-
   toggleItemCompleted = (id) => {
-
     console.log(id);
-    const newMovies = this.state.movies.map((movie) => {
-    	if(movie.id == id) {
-      movie.completed = !movie.completed
+    const newTasks = this.state.tasks.map((task) => {
+    	if(task.id == id) {
+      task.completed = !task.completed
     	}
-      return movie
+      return task
     })
-    this.setState({movies: newMovies});
+    this.setState({tasks: newTasks});
    }
-
-
-
 
 //metodo addItem del componente principal //
   addItem = (item) => {
-    const movie = { id: this.state.movies.length+1 ,title: item};
-    const newMovies = this.state.movies.concat([movie]);
-    this.setState({movies: newMovies});
+    const task = { id: this.state.tasks.length+1 ,title: item};
+    const newTasks = this.state.tasks.concat([task]);
+    this.setState({tasks: newTasks});
   }
-
   constructor(props) {
     super(props)
     this.clearList = this.clearList.bind(this)
   }
   state = {
-    movies: [
+    tasks: [
       { id: 1, title: "Task 1", completed :false},
       { id: 2, title: "Task 2", completed :false},
       { id: 3, title: "Task 3 ", completed :false},
     ]
   }
-  clearList() {
-    this.setState({ movies: [] })
-  }
-  render() {
 
+  clearList() {
+  this.setState({ tasks: [] })
+  }
+
+  render() {
     return (
-      <ScrollView style={styles.movieList}>
+      <ScrollView style={styles.taskList}>
       <Text style={styles.header}>TODOAPP</Text>
       < Input
       placeholder={'Enter an item!'}
       onSubmit={this.addItem}
       />
-      {this.state.movies.map((movie) => {
-
+      {this.state.tasks.map((task) => {
         return (
-          <MovieDetails
-          key={movie.id}
-          movie={movie}
+          <TaskDetails
+          key={task.id}
+          task={task}
           onRemoveItem={this.removeItem}
           onToggleItemCompleted={this.toggleItemCompleted}
           />
@@ -98,7 +84,6 @@ export default class TodoList extends Component {
     )
   }
 }
-
 
 class Input extends Component {
   static propTypes = {
@@ -160,37 +145,29 @@ class Checkbox extends Component {
   }
 }
 
-
-
-
-
-
-class MovieDetails extends Component {
+class TaskDetails extends Component {
   static propTypes = {
     onRemoveItem: PropTypes.func.isRequired,
     onToggleItemCompleted: PropTypes.func.isRequired,
   }
 
-
   render() {
     const {onToggleItemCompleted, onRemoveItem} = this.props
-    const movie = this.props.movie
+    const task = this.props.task
 
     return (
       <View style={styles.item}>
-        <Text>{movie.id}-{movie.title}</Text>
+        <Text>{task.title}</Text>
       <View style={styles.rightSection}>
           <Checkbox
-            isChecked={movie.completed}
-            onToggle={() => onToggleItemCompleted(movie.id)}
+            isChecked={task.completed}
+            onToggle={() => onToggleItemCompleted(task.id)}
           />
-          <TouchableOpacity onPress={() => onRemoveItem(movie.id)}>
+          <TouchableOpacity onPress={() => onRemoveItem(task.id)}>
             <Text style={styles.remove}> &times; </Text>
           </TouchableOpacity>
        </View>
       </View>
-
-
 
     )
   }
@@ -204,13 +181,17 @@ const styles = StyleSheet.create({
   header :{
     padding :30,
     textAlign: 'center',
+    backgroundColor:'#00BFFF',
+    color:'white',
+    fontWeight:'bold',
+    fontSize: 16
+
   },
 
   rightSection: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-
 
   box: {
     height: 20,
@@ -240,7 +221,7 @@ const styles = StyleSheet.create({
   input: {
     height: 50,
     padding: 15,
-    backgroundColor: 'yellow',
+    backgroundColor: 'whitesmoke',
 
   },
 
@@ -250,8 +231,6 @@ const styles = StyleSheet.create({
     color: '#CD5C5C',
     fontSize: 26,
   },
-
-
 
 });
 
