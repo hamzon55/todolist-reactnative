@@ -8,6 +8,7 @@ import React, { Component,PropTypes } from 'react';
 import {
   AppRegistry,
   StyleSheet,
+  
   Text,
   ScrollView,
   Button,
@@ -34,6 +35,7 @@ export default class TodoList extends Component {
 
   toggleItemCompleted = (id) => {
 
+    console.log(id);
     const newMovies = this.state.movies.map((movie) => {
     	if(movie.id == id) {
       movie.completed = !movie.completed
@@ -42,6 +44,7 @@ export default class TodoList extends Component {
     })
     this.setState({movies: newMovies});
    }
+
 
 
 
@@ -171,10 +174,11 @@ class MovieDetails extends Component {
 
   render() {
     const {onToggleItemCompleted, onRemoveItem} = this.props
-    movie = this.props.movie
+    const movie = this.props.movie
+
     return (
       <View style={styles.item}>
-        <Text>{movie.title}</Text>
+        <Text>{movie.id}-{movie.title}</Text>
       <View style={styles.rightSection}>
           <Checkbox
             isChecked={movie.completed}
