@@ -5,7 +5,6 @@ operaciones:
 - Mirar la lista de todas las tareas
 - Añadir una nueva tarea
 - Borrar una tarea
-- Editar una tarea
 - Marcar una tarea como hecha
 
 Además, la aplicación deberá tener acceso a una pantalla diferente donde podemos ver
